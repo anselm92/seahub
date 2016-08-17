@@ -47,6 +47,8 @@ define([
 
         render: function() {
             this.$el.html(this.template({
+                can_generate_share_link: app.pageOptions.can_generate_share_link,
+                can_generate_upload_link: app.pageOptions.can_generate_upload_link,
                 title: gettext("{placeholder} Share Links")
                     .replace('{placeholder}',
                     '<span class="op-target ellipsis ellipsis-op-target" title="'

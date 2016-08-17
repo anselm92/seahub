@@ -51,10 +51,10 @@ class UploadLinksTest(BaseTestCase):
 
         self._remove_upload_link(token)
 
-    @patch.object(UploadLinks, '_can_generate_shared_link')
-    def test_get_link_with_invalid_user_role_permission(self, mock_can_generate_shared_link):
+    @patch.object(UploadLinks, '_can_generate_upload_link')
+    def test_get_link_with_invalid_user_role_permission(self, mock_can_generate_upload_link):
         self.login_as(self.user)
-        mock_can_generate_shared_link.return_value = False
+        mock_can_generate_upload_link.return_value = False
 
         resp = self.client.get(self.url)
         self.assertEqual(403, resp.status_code)
@@ -74,10 +74,10 @@ class UploadLinksTest(BaseTestCase):
 
         self._remove_upload_link(json_resp['token'])
 
-    @patch.object(UploadLinks, '_can_generate_shared_link')
-    def test_create_link_with_invalid_user_role_permission(self, mock_can_generate_shared_link):
+    @patch.object(UploadLinks, '_can_generate_upload_link')
+    def test_create_link_with_invalid_user_role_permission(self, mock_can_generate_upload_link):
         self.login_as(self.user)
-        mock_can_generate_shared_link.return_value = False
+        mock_can_generate_upload_link.return_value = False
 
         resp = self.client.post(self.url, {'path': self.folder_path, 'repo_id': self.repo_id})
         self.assertEqual(403, resp.status_code)
@@ -145,12 +145,12 @@ class UploadLinksTest(BaseTestCase):
         json_resp = json.loads(resp.content)
         assert json_resp['success'] is True
 
-    @patch.object(UploadLink, '_can_generate_shared_link')
-    def test_delete_link_with_invalid_user_role_permission(self, mock_can_generate_shared_link):
+    @patch.object(UploadLink, '_can_generate_upload_link')
+    def test_delete_link_with_invalid_user_role_permission(self, mock_can_generate_upload_link):
         token = self._add_upload_link()
 
         self.login_as(self.user)
-        mock_can_generate_shared_link.return_value = False
+        mock_can_generate_upload_link.return_value = False
 
         url = reverse('api-v2.1-upload-link', args=[token])
         resp = self.client.delete(url, {}, 'application/x-www-form-urlencoded')

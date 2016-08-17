@@ -31,9 +31,9 @@ class UploadLinks(APIView):
     permission_classes = (IsAuthenticated,)
     throttle_classes = (UserRateThrottle, )
 
-    def _can_generate_shared_link(self, request):
+    def _can_generate_upload_link(self, request):
 
-        return request.user.permissions.can_generate_shared_link()
+        return request.user.permissions.can_generate_upload_link()
 
     def _get_upload_link_info(self, uls):
         data = {}
@@ -76,7 +76,7 @@ class UploadLinks(APIView):
         1. default(NOT guest) user;
         """
 
-        if not self._can_generate_shared_link(request):
+        if not self._can_generate_upload_link(request):
             error_msg = 'Permission denied.'
             return api_error(status.HTTP_403_FORBIDDEN, error_msg)
 
@@ -167,7 +167,7 @@ class UploadLinks(APIView):
             return api_error(status.HTTP_404_NOT_FOUND, error_msg)
 
         # permission check
-        if not self._can_generate_shared_link(request):
+        if not self._can_generate_upload_link(request):
             error_msg = 'Permission denied.'
             return api_error(status.HTTP_403_FORBIDDEN, error_msg)
 
@@ -190,9 +190,9 @@ class UploadLink(APIView):
     permission_classes = (IsAuthenticated,)
     throttle_classes = (UserRateThrottle, )
 
-    def _can_generate_shared_link(self, request):
+    def _can_generate_upload_link(self, request):
 
-        return request.user.permissions.can_generate_shared_link()
+        return request.user.permissions.can_generate_upload_link()
 
     def get(self, request, token):
         """ Get upload link info.
@@ -201,7 +201,7 @@ class UploadLink(APIView):
         1. default(NOT guest) user;
         """
 
-        if not self._can_generate_shared_link(request):
+        if not self._can_generate_upload_link(request):
             error_msg = 'Permission denied.'
             return api_error(status.HTTP_403_FORBIDDEN, error_msg)
 
@@ -222,7 +222,7 @@ class UploadLink(APIView):
         2. link owner;
         """
 
-        if not self._can_generate_shared_link(request):
+        if not self._can_generate_upload_link(request):
             error_msg = 'Permission denied.'
             return api_error(status.HTTP_403_FORBIDDEN, error_msg)
 
