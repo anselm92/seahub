@@ -3,15 +3,16 @@ define([
     'underscore',
     'backbone',
     'common',
+    'moment',
     'app/views/widgets/hl-item-view'
-], function($, _, Backbone, Common, HLItemView) {
+], function($, _, Backbone, Common, Moment, HLItemView) {
     'use strict';
 
-    var ShareAdminUploadLinkView = HLItemView.extend({
+    var ShareLinkView = HLItemView.extend({
 
         tagName: 'tr',
 
-        template: _.template($('#share-admin-upload-link-tmpl').html()),
+        template: _.template($('#share-link-tmpl').html()),
         linkPopupTemplate: _.template($('#share-admin-link-popup-tmpl').html()),
 
         events: {
@@ -44,7 +45,7 @@ define([
 
             $.ajax({
                 url: Common.getUrl({
-                    'name': 'share_admin_upload_link',
+                    'name': 'share_link',
                     'token': this.model.get('token')
                 }),
                 type: 'DELETE',
@@ -68,7 +69,8 @@ define([
 
             _.extend(data, {
                 'icon_url': icon_url,
-                'dirent_url': this.model.getWebUrl()
+                'dirent_url': this.model.getWebUrl(),
+                'time': data['expire_date'] ? Moment(data['expire_date']).format('YYYY-MM-DD') : ''
             });
 
             this.$el.html(this.template(data));
@@ -77,5 +79,5 @@ define([
 
     });
 
-    return ShareAdminUploadLinkView;
+    return ShareLinkView;
 });

@@ -16,15 +16,15 @@ define([
     'app/views/invitations',
     'app/views/share-admin-repos',
     'app/views/share-admin-folders',
-    'app/views/share-admin-share-links',
-    'app/views/share-admin-upload-links',
+    'app/views/share-links',
+    'app/views/upload-links',
     'app/views/notifications',
     'app/views/account'
 ], function($, Backbone, Common, SideNavView, MyReposView,
     SharedReposView, GroupsView, GroupView, OrgView, DirView,
     StarredFileView, ActivitiesView, DevicesView, InvitationsView,
-    ShareAdminReposView, ShareAdminFoldersView, ShareAdminShareLinksView,
-    ShareAdminUploadLinksView, NotificationsView, AccountView) {
+    ShareAdminReposView, ShareAdminFoldersView, ShareLinksView,
+    UploadLinksView, NotificationsView, AccountView) {
     "use strict";
 
     var Router = Backbone.Router.extend({
@@ -76,8 +76,8 @@ define([
             this.activitiesView = new ActivitiesView();
             this.shareAdminReposView = new ShareAdminReposView();
             this.shareAdminFoldersView = new ShareAdminFoldersView();
-            this.shareAdminShareLinksView = new ShareAdminShareLinksView();
-            this.shareAdminUploadLinksView = new ShareAdminUploadLinksView();
+            this.ShareLinksView = new ShareLinksView();
+            this.UploadLinksView = new UploadLinksView();
 
             app.ui.notificationsView = this.notificationsView = new NotificationsView();
             app.ui.accountView = this.accountView = new AccountView();
@@ -251,14 +251,14 @@ define([
         },
 
         showShareAdminShareLinks: function() {
-            this.switchCurrentView(this.shareAdminShareLinksView);
-            this.shareAdminShareLinksView.show();
+            this.switchCurrentView(this.ShareLinksView);
+            this.ShareLinksView.show();
             this.sideNavView.setCurTab('share-admin-links');
         },
 
         showShareAdminUploadLinks: function() {
-            this.switchCurrentView(this.shareAdminUploadLinksView);
-            this.shareAdminUploadLinksView.show();
+            this.switchCurrentView(this.UploadLinksView);
+            this.UploadLinksView.show();
             this.sideNavView.setCurTab('share-admin-links');
         }
 

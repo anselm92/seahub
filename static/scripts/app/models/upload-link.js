@@ -5,7 +5,7 @@ define([
 ], function(_, Backbone, Common) {
     'use strict';
 
-    var ShareAdminUploadLink = Backbone.Model.extend({
+    var UploadLink = Backbone.Model.extend({
         getIconUrl: function(size) {
             return Common.getDirIconUrl(false , size);
         },
@@ -17,5 +17,5 @@ define([
         }
     });
 
-    return ShareAdminUploadLink;
+    return UploadLink;
 });

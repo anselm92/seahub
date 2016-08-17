@@ -126,10 +126,10 @@ define([
                 case 'share_admin_repos': return siteRoot + 'api/v2.1/shared-repos/';
                 case 'share_admin_repo': return siteRoot + 'api/v2.1/shared-repos/' + options.repo_id + '/';
                 case 'share_admin_folders': return siteRoot + 'api/v2.1/shared-folders/';
-                case 'share_admin_share_links': return siteRoot + 'api/v2.1/share-links/';
-                case 'share_admin_share_link': return siteRoot + 'api/v2.1/share-links/' + options.token + '/';
-                case 'share_admin_upload_links': return siteRoot + 'api/v2.1/upload-links/';
-                case 'share_admin_upload_link': return siteRoot + 'api/v2.1/upload-links/' + options.token + '/';
+                case 'share_links': return siteRoot + 'api/v2.1/share-links/';
+                case 'share_link': return siteRoot + 'api/v2.1/share-links/' + options.token + '/';
+                case 'upload_links': return siteRoot + 'api/v2.1/upload-links/';
+                case 'upload_link': return siteRoot + 'api/v2.1/upload-links/' + options.token + '/';
 
                 // Permission
                 case 'set_user_folder_perm': return siteRoot + 'ajax/repo/' + options.repo_id + '/set-user-folder-perm/';

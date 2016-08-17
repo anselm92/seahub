@@ -2,8 +2,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'common'
-], function($, _, Backbone, Common) {
+    'common',
+    'moment'
+], function($, _, Backbone, Common, Moment) {
     'use strict';
 
     var View = Backbone.View.extend({
@@ -18,38 +19,22 @@ define([
         },
 
         initialize: function(options) {
-            this.data = {};
-            $.extend(this.data, options);
+            this.link_type = options['link_type'];
         },
 
         render: function() {
-            var obj = {}; 
+            var data = this.model.toJSON();
+            var icon_size = Common.isHiDPI() ? 96 : 24;
+            var icon_url = this.model.getIconUrl(icon_size);
 
-            var path = this.model.get('path'),
-                _path = path,
-                formattedSize = ''; // no 'size' for dir item
-
-            $.extend(obj, this.model.attributes);
-
-            // no 'share_type' in upload link model
-            if (this.data.link_type == 'upload') {
-                $.extend(obj, {
-                    'share_type': 'd' // 'd': dir
-                });
-            }
-            if (obj.share_type == 'd') {
-                // path is ended with '/'
-                _path = path.substring(0, path.length - 1);
-            } else {
-                formattedSize = Common.fileSizeFormat(this.model.get('size'), 1);
-            }
-            $.extend(obj, {
-                'repo_id': this.data.repo_id,
-                'formattedSize': formattedSize,
-                'encoded_path': Common.encodePath(_path)
+            _.extend(data, {
+                'link_type': this.link_type,
+                'icon_url': icon_url,
+                'dirent_url': this.model.getWebUrl(),
+                'time': data['expire_date'] ? Moment(data['expire_date']).format('YYYY-MM-DD') : ''
             });
 
-            this.$el.html(this.template(obj));
+            this.$el.html(this.template(data));
             return this;
         },
 
@@ -63,8 +48,7 @@ define([
 
         removeLink: function() {
             var url = Common.getUrl({
-                name: this.data.link_type == 'download' ? 'repo_shared_download_link' : 'repo_shared_upload_link',
-                repo_id: this.data.repo_id,
+                name: this.link_type == 'download' ? 'share_link' : 'upload_link',
                 token: this.model.get('token')
             });
             var _this = this;

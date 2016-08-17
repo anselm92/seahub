@@ -3,10 +3,10 @@ define([
     'underscore',
     'backbone',
     'common',
-    'app/collections/repo-shared-download-links',
-    'app/collections/repo-shared-upload-links',
+    'app/collections/share-links',
+    'app/collections/upload-links',
     'app/views/repo-shared-link'
-], function($, _, Backbone, Common, DownloadLinks, UploadLinks, LinkView) {
+], function($, _, Backbone, Common, ShareLinks, UploadLinks, LinkView) {
     'use strict';
 
     var RepoShareLinkAdminDialog = Backbone.View.extend({
@@ -27,22 +27,27 @@ define([
             });
             this.$('.js-tabs').tabs();
 
-            var downloadLinks = new DownloadLinks({repo_id: this.repo_id});
-            downloadLinks.link_type = 'download';
+            var shareLinks = new ShareLinks({repo_id: this.repo_id});
+            shareLinks.link_type = 'download';
             this.$downloadLinksPanel = this.$('#js-download-links');
 
             var uploadLinks = new UploadLinks({repo_id: this.repo_id});
             uploadLinks.link_type = 'upload';
             this.$uploadLinksPanel = this.$('#js-upload-links');
 
-            this.renderLinksPanel({
-                links: downloadLinks,
-                $panel: this.$downloadLinksPanel
-            });
-            this.renderLinksPanel({
-                links: uploadLinks,
-                $panel: this.$uploadLinksPanel
-            });
+            if (app.pageOptions.can_generate_share_link) {
+                this.renderLinksPanel({
+                    links: shareLinks,
+                    $panel: this.$downloadLinksPanel
+                });
+            }
+
+            if (app.pageOptions.can_generate_upload_link) {
+                this.renderLinksPanel({
+                    links: uploadLinks,
+                    $panel: this.$uploadLinksPanel
+                });
+            }
         },
 
         render: function() {
@@ -73,6 +78,7 @@ define([
                 },
                 error: function(collection, response, opts) {
                     $loadingTip.hide();
+                    var err_msg;
                     if (response.responseText) {
                         if (response['status'] == 401 || response['status'] == 403) {
                             err_msg = gettext("Permission error");
@@ -90,12 +96,7 @@ define([
         addLink: function(model, collection, options) {
             var link_type = collection.link_type;
             var $panel = link_type == 'download' ? this.$downloadLinksPanel : this.$uploadLinksPanel;
-            var view = new LinkView({
-                model: model,
-                repo_id: this.repo_id,
-                link_type: link_type,
-                $error: $('.error', $panel)
-            });
+            var view = new LinkView({model: model, link_type: link_type});
             $('tbody', $panel).append(view.render().el);
         }
 

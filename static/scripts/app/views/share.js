@@ -129,7 +129,7 @@ define([
             };
             // check if downloadLink exists
             Common.ajaxGet({
-                'get_url': Common.getUrl({name: 'share_admin_share_links'}),
+                'get_url': Common.getUrl({name: 'share_links'}),
                 'data': {
                     'repo_id': this.repo_id,
                     'path': this.dirent_path
@@ -293,7 +293,7 @@ define([
             this.generateLink({
                 link_type: 'download',
                 form: this.$('#generate-download-link-form'),
-                post_url: Common.getUrl({name: 'share_admin_share_links'})
+                post_url: Common.getUrl({name: 'share_links'})
             });
             return false;
         },
@@ -383,7 +383,7 @@ define([
             var _this = this;
             $.ajax({
                 url: Common.getUrl({
-                    'name': 'share_admin_share_link',
+                    'name': 'share_link',
                     'token': this.download_link_token
                 }),
                 type: 'DELETE',
@@ -413,7 +413,7 @@ define([
             };
             // check if upload link exists
             Common.ajaxGet({
-                'get_url': Common.getUrl({name: 'share_admin_upload_links'}),
+                'get_url': Common.getUrl({name: 'upload_links'}),
                 'data': {
                     'repo_id': this.repo_id,
                     'path': this.dirent_path
@@ -434,7 +434,7 @@ define([
             this.generateLink({
                 link_type: 'upload',
                 form: this.$('#generate-upload-link-form'),
-                post_url: Common.getUrl({name: 'share_admin_upload_links'})
+                post_url: Common.getUrl({name: 'upload_links'})
             });
             return false;
         },
@@ -465,7 +465,7 @@ define([
             var _this = this;
             $.ajax({
                 url: Common.getUrl({
-                    'name': 'share_admin_upload_link',
+                    'name': 'upload_link',
                     'token': this.upload_link_token
                 }),
                 type: 'DELETE',

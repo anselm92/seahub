@@ -1239,12 +1239,11 @@
                 <table>
                     <thead>
                     <tr>
-                        <th width="6%"><!--icon--></th>
-                        <th width="40%">{% trans "Name"%}</th>
-                        <th width="21%">{% trans "Created By"%}</th>
-                        <th width="15%">{% trans "Size"%}</th>
-                        <th width="12%">{% trans "Visits"%}</th>
-                        <th width="6%"><!--op--></th>
+                        <th width="4%"><!--icon--></th>
+                        <th width="46%">{% trans "Name" %}</th>
+                        <th width="20%">{% trans "Visits" %}</th>
+                        <th width="20%">{% trans "Expiration" %}</th>
+                        <th width="10%"><!--Operations--></th>
                     </tr>
                     </thead>
                     <tbody></tbody>
@@ -1258,12 +1257,10 @@
                 <table>
                     <thead>
                     <tr>
-                        <th width="6%"><!--icon--></th>
-                        <th width="40%">{% trans "Name"%}</th>
-                        <th width="21%">{% trans "Created By"%}</th>
-                        <th width="15%">{% trans "Size"%}</th>
-                        <th width="12%">{% trans "Visits"%}</th>
-                        <th width="6%"><!--op--></th>
+                        <th width="4%"><!--icon--></th>
+                        <th width="56%">{% trans "Name" %}</th>
+                        <th width="30%">{% trans "Visits" %}</th>
+                        <th width="10%"><!--Operations--></th>
                     </tr>
                     </thead>
                     <tbody></tbody>
@@ -1276,18 +1273,22 @@
     </div>
 </script>
 <script type="text/template" id="repo-shared-link-tmpl">
-    <% if (share_type == 'd') { %>
-    <td class="alc"><img src="{{ MEDIA_URL }}img/folder-24.png" alt="{% trans "Directory icon"%}" /></td>
-    <td><a href="#my-libs/lib/<%= repo_id %><%= encoded_path %>"><%- name %></a></td>
+    <td><img src="<%= icon_url %>" width="24" alt="" /></td>
+    <td><a href="<%= dirent_url %>"><%- obj_name %></a></td>
+    <td><%= view_cnt %></td>
+    <% if (link_type=='download') { %>
+    <% if (expire_date) { %>
+        <% if (is_expired) { %>
+        <td class='error'><%= time %></td>
+        <% } else { %>
+        <td><%= time %></td>
+        <% } %>
     <% } else { %>
-    <td class="alc"><img src="{{ MEDIA_URL }}img/file/file.png" alt="{% trans "File"%}" /></td>
-    <td><a href="{{SITE_ROOT}}lib/<%= repo_id %>/file<%= encoded_path %>"><%- name %></a></td>
+    <td>--</td>
     <% } %>
-    <td><a href="{{SITE_ROOT}}profile/<% print(encodeURIComponent(create_by)); %>/"><%- creator_name %></a></td>
-    <td><%= formattedSize %></td>
-    <td><%= view_count %></td>
+    <% } %>
     <td>
-        <a href="#" class="sf2-icon-delete op-icon vh rm-link" title="{% trans "Remove"%}"></a>
+        <a href="#" class="sf2-icon-delete rm-link op-icon vh" title="{% trans "Remove" %}"></a>
     </td>
 </script>
 
@@ -1594,7 +1595,7 @@
     <p class="error error-tip hide"></p>
 </script>
 
-<script type="text/template" id="share-admin-download-links-tmpl">
+<script type="text/template" id="share-links-tmpl">
     <div class="hd ovhd">
         <ul class="tab-tabs-nav fleft">
             <li class="tab ui-state-active">
@@ -1629,7 +1630,7 @@
     <p class="error error-tip hide"></p>
 </script>
 
-<script type="text/template" id="share-admin-upload-links-tmpl">
+<script type="text/template" id="upload-links-tmpl">
     <div class="hd ovhd">
         <ul class="tab-tabs-nav fleft">
             <% if (can_generate_share_link) { %>
@@ -1663,7 +1664,7 @@
     <p class="error error-tip hide"></p>
 </script>
 
-<script type="text/template" id="share-admin-download-link-tmpl">
+<script type="text/template" id="share-link-tmpl">
     <td><img src="<%= icon_url %>" width="24" alt="" /></td>
     <td><a href="<%= dirent_url %>"><%- obj_name %></a></td>
     <td><a href="#common/lib/<%= repo_id %>"><%- repo_name %></a></td>
@@ -1683,7 +1684,7 @@
     </td>
 </script>
 
-<script type="text/template" id="share-admin-upload-link-tmpl">
+<script type="text/template" id="upload-link-tmpl">
     <td><img src="<%= icon_url %>" width="24" alt="" /></td>
     <td><a href="<%= dirent_url %>"><%- obj_name %></a></td>
     <td><a href="#common/lib/<%= repo_id %>"><%- repo_name %></a></td>

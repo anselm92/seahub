@@ -6,7 +6,7 @@ define([
 ], function(_, Backbone, Common, Moment) {
     'use strict';
 
-    var ShareAdminShareLink = Backbone.Model.extend({
+    var ShareLink = Backbone.Model.extend({
         parse: function(response) {
             var attrs = _.clone(response),
                 expire_date = response.expire_date;
@@ -41,5 +41,5 @@ define([
 
     });
 
-    return ShareAdminShareLink;
+    return ShareLink;
 });

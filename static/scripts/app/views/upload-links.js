@@ -3,21 +3,21 @@ define([
     'underscore',
     'backbone',
     'common',
-    'app/collections/share-admin-upload-links',
-    'app/views/share-admin-upload-link'
-], function($, _, Backbone, Common, ShareAdminUploadLinkCollection,
-    ShareAdminUploadLinkView) {
+    'app/collections/upload-links',
+    'app/views/upload-link'
+], function($, _, Backbone, Common, UploadLinkCollection,
+    UploadLinkView) {
 
     'use strict';
 
-    var ShareAdminUploadLinksView = Backbone.View.extend({
+    var UploadLinksView = Backbone.View.extend({
 
         id: 'share-admin-upload-links',
 
-        template: _.template($('#share-admin-upload-links-tmpl').html()),
+        template: _.template($('#upload-links-tmpl').html()),
 
         initialize: function() {
-            this.links = new ShareAdminUploadLinkCollection();
+            this.links = new UploadLinkCollection();
             this.listenTo(this.links, 'add', this.addOne);
             this.listenTo(this.links, 'reset', this.reset);
             this.render();
@@ -91,11 +91,11 @@ define([
         },
 
         addOne: function(link) {
-            var view = new ShareAdminUploadLinkView({model: link});
+            var view = new UploadLinkView({model: link});
             this.$tableBody.append(view.render().el);
         }
 
     });
 
-    return ShareAdminUploadLinksView;
+    return UploadLinksView;
 });

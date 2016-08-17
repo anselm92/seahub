@@ -3,21 +3,21 @@ define([
     'underscore',
     'backbone',
     'common',
-    'app/collections/share-admin-share-links',
-    'app/views/share-admin-share-link'
-], function($, _, Backbone, Common, ShareAdminShareLinkCollection,
-    ShareAdminShareLinkView) {
+    'app/collections/share-links',
+    'app/views/share-link'
+], function($, _, Backbone, Common, ShareLinkCollection,
+    ShareLinkView) {
 
     'use strict';
 
-    var ShareAdminShareLinksView = Backbone.View.extend({
+    var ShareLinksView = Backbone.View.extend({
 
         id: 'share-admin-download-links',
 
-        template: _.template($('#share-admin-download-links-tmpl').html()),
+        template: _.template($('#share-links-tmpl').html()),
 
         initialize: function() {
-            this.links = new ShareAdminShareLinkCollection();
+            this.links = new ShareLinkCollection();
             this.listenTo(this.links, 'add', this.addOne);
             this.listenTo(this.links, 'reset', this.reset);
             this.render();
@@ -179,11 +179,11 @@ define([
         },
 
         addOne: function(link) {
-            var view = new ShareAdminShareLinkView({model: link});
+            var view = new ShareLinkView({model: link});
             this.$tableBody.append(view.render().el);
         }
 
     });
 
-    return ShareAdminShareLinksView;
+    return ShareLinksView;
 });
