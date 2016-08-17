@@ -1,4 +1,6 @@
 # Copyright (c) 2012-2016 Seafile Ltd.
+import logging
+
 from rest_framework import serializers
 
 from seahub.auth import authenticate
@@ -8,6 +10,8 @@ from seahub.profile.models import Profile
 from seahub.utils.two_factor_auth import has_two_factor_auth, \
         two_factor_auth_enabled, verify_two_factor_token
 from seahub.utils.user_permissions import populate_user_permissions
+
+logger = logging.getLogger(__name__)
 
 def all_none(values):
     for value in values:
@@ -86,7 +90,7 @@ class AuthTokenSerializer(serializers.Serializer):
             if not user.permissions.can_connect_with_ios_clients():
                 raise serializers.ValidationError('Not allowed to connect to ios client.')
         else:
-            raise serializers.ValidationError('platform invalid.')
+            logger.info('%s: unrecognized device' % login_id)
 
         self._two_factor_auth(self.context['request'], user)
 
